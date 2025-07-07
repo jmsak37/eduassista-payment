@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome | EDUASSISTA ENTERPRISES L.T.D</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Reset */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(to bottom right, #e0f7fa, #f1f8e9);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2rem;
+            position: relative;
+        }
+        /* Welcome Box */
+        
+        .welcome-box {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            animation: fadeIn 1.2s ease;
+        }
+        
+        .welcome-box h1 {
+            color: #004d40;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-box p {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.6;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Buttons */
+        
+        .btn {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background: #00796b;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: #00564d;
+            transform: scale(1.05);
+        }
+        
+        .btn.large {
+            font-size: 1.25rem;
+            padding: 1rem 2rem;
+        }
+        /* Modal backdrop */
+        
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        /* Modal */
+        
+        .modal {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 520px;
+            width: 95%;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal h2 {
+            color: #00796b;
+            margin-bottom: 1rem;
+        }
+        
+        .modal label {
+            display: block;
+            margin: 0.5rem 0 0.25rem;
+            font-weight: 600;
+        }
+        
+        .modal input[type="email"],
+        .modal input[type="text"],
+        .modal textarea,
+        .modal input[type="file"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+        
+        .modal textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        
+        .modal .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .modal .actions .btn {
+            flex: 1;
+            margin: 0 0.25rem;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            font-size: 1.5rem;
+            color: #999;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .close-btn:hover {
+            color: #000;
+        }
+        
+        .add-file {
+            font-size: 0.9rem;
+            color: #00796b;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .add-file:hover {
+            text-decoration: underline;
+        }
+        
+        .whatsapp {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #25D366;
+            text-decoration: none;
+        }
+        
+        .whatsapp:hover {
+            text-decoration: underline;
+        }
+        /* Loader overlay */
+        
+        .loader-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .loader {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #ccc;
+            border-top: 5px solid #00796b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .loader p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+        }
+        /* Footer Support Message */
+        
+        .support-footer {
+            margin-top: auto;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .support-footer p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Welcome -->
+    <div class="welcome-box">
+        <h1>Welcome to EDUASSISTA ENTERPRISES L.T.D</h1>
+        <p>You are making payments to a <strong>registered and verified company</strong>. For any issues or assistance, feel free to reach out using the contact options below.</p>
+    </div>
+
+    <!-- Main Button Section -->
+    <div>
+        <a href="dipost.html" class="btn large">💳 Make a Payment</a>
+    </div>
+
+    <!-- Footer Contact Support -->
+    <div class="support-footer">
+        <p>In case of any issues with payment or other things, contact support:</p>
+        <button class="btn" id="contactBtn">📞 Contact Support</button>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal-backdrop" id="contactModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h2>Contact Us</h2>
+            <form id="contactForm" enctype="multipart/form-data">
+                <label for="userEmail">Your Email</label>
+                <input type="email" id="userEmail" name="userEmail" required>
+
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <label>Attachments</label>
+                <div id="filesContainer">
+                    <input type="file" name="attachments[]">
+                </div>
+                <span class="add-file" onclick="addAttachment()">+ Add another attachment</span>
+
+                <div class="actions">
+                    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loader Overlay -->
+    <div class="loader-backdrop" id="loader">
+        <div class="loader">
+            <div class="spinner"></div>
+            <p>Sending your message… please wait.</p>
+        </div>
+    </div>
+
+    <!-- JS Scripts -->
+    <script>
+        // Modal open/close
+        document.getElementById('contactBtn').onclick = () => {
+            document.getElementById('contactModal').style.display = 'flex';
+        };
+
+        function closeModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        function addAttachment() {
+            const c = document.getElementById('filesContainer');
+            const inp = document.createElement('input');
+            inp.type = 'file';
+            inp.name = 'attachments[]';
+            c.appendChild(inp);
+        }
+
+        // AJAX form submit
+        const form = document.getElementById('contactForm');
+        const loader = document.getElementById('loader');
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+            loader.style.display = 'flex';
+
+            const data = new FormData(form);
+            try {
+                const res = await fetch('index.php', {
+                    method: 'POST',
+                    body: data
+                });
+                const json = await res.json();
+                loader.style.display = 'none';
+                closeModal();
+                alert(json.message);
+            } catch (err) {
+                loader.style.display = 'none';
+                alert('Network error. Please try again.');
+                console.error(err);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

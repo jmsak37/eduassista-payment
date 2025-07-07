@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> PAY EDUASSISTA ENTERPRISES L.T.D</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        /* Reset & Base */
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef2f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        header {
+            background: #004d40;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        header h1 {
+            font-size: 1.75rem;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .left,
+        .right {
+            padding: 1.5rem;
+            flex: 1 1 300px;
+        }
+        
+        .left {
+            order: 2;
+        }
+        
+        .right {
+            order: 1;
+            border-left: 1px solid #eee;
+        }
+        
+        @media(max-width:600px) {
+            .left {
+                order: 1;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .right {
+                order: 2;
+                display: none;
+            }
+            /* hide QR on mobile */
+        }
+        
+        .section {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-paypal {
+            background: #ffc439;
+            color: #111;
+        }
+        
+        .btn-paypal:hover {
+            background: #e0ac1c;
+        }
+        
+        .btn-mpesa {
+            background: #009345;
+            color: #fff;
+        }
+        
+        .btn-mpesa:hover {
+            background: #00772e;
+        }
+        
+        .qr-block {
+            text-align: center;
+        }
+        
+        .qr-block a {
+            display: inline-block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .qr-block img {
+            width: 300px;
+            height: 300px;
+            display: block;
+            margin: 0 auto 0.5rem;
+        }
+        
+        .qr-block p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        /* Modal */
+        
+        .popup-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .popup {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 6px;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .popup h3 {
+            margin-bottom: 1rem;
+            color: #d32f2f;
+        }
+        
+        .popup button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #004d40;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAEQwChMoR4GF15yvmwjeLh9jDbF-GBCP7Q0tYGz6AfgAyRZkjxSUjT_N7CGFJzh7Pp6AC4QAiMLE24T4&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>PAY EDUASSISTA ENTERPRISES L.T.D FUNDS</h1>
+        </header>
+        <div class="content">
+            <div class="left">
+                <section class="section">
+                    <button class="btn btn-paypal" id="paypalBtn"> Pay with PayPal</button>
+                    <div id="paypal-container-BW28H6FSRFN5U"></div>
+                </section>
+
+
+                <div class="right">
+                    <div class="qr-block">
+                        <a href="#"><img src="EDUASSISTA ENT-qrcode.png" alt="Scan to pay with phone"></a>
+                        <p>Scan the QR code<br>to pay with your phone</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validation Pop‑up -->
+        <div class="popup-backdrop" id="popup">
+            <div class="popup">
+                <h3>Please enter an amount.</h3>
+                <button onclick="closePopup()">OK</button>
+            </div>
+        </div>
+
+        <script>
+            // Render PayPal button
+            paypal.HostedButtons({
+                    hostedButtonId: "BW28H6FSRFN5U"
+                })
+                .render("#paypal-container-BW28H6FSRFN5U");
+
+
+
+            function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+            }
+        </script>
+</body>
+
+</html>
